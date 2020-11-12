@@ -5,8 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Search and Share</title>
     <script src="dist/bundle.js" defer></script>
-    <link rel="stylesheet" href="app.css">
+    <link rel="stylesheet" href="app.css" />
   </head>
   <body>
+    <div id="map">
+      <p>Please enter address</p>
+    </div>
+    <form id="searchForm">
+      <label for="address">Address</label>
+      <input type="text" name="address" id="address" />
+      <button type="submit">Search Address</button>
+    </form>
   </body>
 </html>
