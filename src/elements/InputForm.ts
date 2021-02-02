@@ -1,7 +1,8 @@
-type AddressSubmit = (address: string)=>void;
-export class InputForm {
+type AddressSubmit = (address: string) => void
+export default class InputForm {
   private formElement: HTMLFormElement
-  private addressField: HTMLInputElement;
+
+  private addressField: HTMLInputElement
 
   constructor(formId: string, private onAddressSubmit: AddressSubmit) {
     this.formElement = document.getElementById(formId) as HTMLFormElement
@@ -9,18 +10,18 @@ export class InputForm {
     this.configure()
   }
 
-  configure(){
+  configure(): void {
     this.formElement.addEventListener('submit', this.searchAddressHandler)
   }
 
-  searchAddressHandler = (event: Event) => {
-    event.preventDefault();
+  searchAddressHandler = (event: Event): void => {
+    event.preventDefault()
     const enteredAddress = this.addressField.value
     this.onAddressSubmit(enteredAddress)
-    this.clearSearch();
+    this.clearSearch()
   }
 
-  clearSearch = () => {
-    this.addressField.value = '';
+  clearSearch = (): void => {
+    this.addressField.value = ''
   }
 }

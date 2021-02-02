@@ -1,4 +1,5 @@
-import { InputForm } from "./elements/InputForm";
-import { mapQuery } from "./models/MapQuery";
+import InputForm from './elements/InputForm'
+import { mapQuery } from './models/MapQuery'
 
-new InputForm('searchForm', mapQuery.queryAddress)
+const inputForm = new InputForm('searchForm', mapQuery.queryAddress)
+inputForm.clearSearch()
