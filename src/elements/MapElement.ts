@@ -7,6 +7,8 @@ export default class ObserverMapElement implements Observer {
 
   private loader: Loader
 
+  private map?: google.maps.Map
+
   constructor(private mapElement: HTMLElement) {
     this.apiKey = process.env.API_KEY as string
     if (this.apiKey) {
@@ -18,12 +20,14 @@ export default class ObserverMapElement implements Observer {
     }
   }
 
-  mapLoad = (mapOptions: google.maps.MapOptions): void => {
-    let map: google.maps.Map
-    this.loader
+  mapLoad = async (
+    mapOptions: google.maps.MapOptions,
+  ): Promise<void | google.maps.Map<Element> | google.maps.StreetViewPanorama | null | undefined> => {
+    const value = await this.loader
       .load()
       .then(() => {
-        map = new google.maps.Map(this.mapElement, mapOptions)
+        this.map = new google.maps.Map(this.mapElement, mapOptions)
+        return this.map
       })
       .catch((err) => {
         if (err instanceof Error) {
@@ -34,6 +38,7 @@ export default class ObserverMapElement implements Observer {
           console.error(String(err))
         }
       })
+    return value
   }
 
   onNotify(s: Subject): void {
