@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import axios from 'axios'
 import { GeocodeResults } from './GeocodeResult'
 import { Observer, Subject } from './observer'
@@ -5,7 +6,7 @@ import { Observer, Subject } from './observer'
 export class MapQuery implements Subject {
   private static instance: MapQuery
 
-  private addresses: GeocodeResults['results'] = []
+  private _addresses: GeocodeResults['results'] = []
 
   private url: string
 
@@ -32,12 +33,19 @@ export class MapQuery implements Subject {
       .get<GeocodeResults>(url)
       .then((response) => {
         const { status, results } = response.data
-        if (status === 'OK') {
-          this.adresses = results
-          console.log(this.addresses)
-        } else {
+        if (status !== 'OK') {
           throw Error(`Error status: ${status}
           Response: ${JSON.stringify(response.data)}`)
+        } else {
+          this._addresses = results
+          return results
+        }
+      })
+      .then((results) => {
+        if (results.length > 0) {
+          this.notify()
+        } else {
+          throw Error('No search results')
         }
       })
       .catch((error: Error) => {
@@ -45,12 +53,8 @@ export class MapQuery implements Subject {
       })
   }
 
-  // set addresses(addressResults: GeocodeResults['results']){
-  //   this.addresses = addressResults
-  // }
-  set adresses(addressResults: GeocodeResults['results']) {
-    this.addresses = addressResults
-    console.log('set address')
+  get addresses(): GeocodeResults['results'] {
+    return this._addresses
   }
 
   addObserver(o: Observer): void {
