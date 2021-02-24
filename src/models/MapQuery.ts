@@ -49,6 +49,7 @@ export class MapQuery implements Subject {
         }
       })
       .catch((error: Error) => {
+        // eslint-disable-next-line no-console
         console.error(error)
       })
   }
@@ -60,6 +61,7 @@ export class MapQuery implements Subject {
   addObserver(o: Observer): void {
     const isExist = this.observers.includes(o)
     if (isExist) {
+      // eslint-disable-next-line no-console
       console.log('Subject: Observer has been attached already.')
     }
     this.observers.push(o)
@@ -68,6 +70,7 @@ export class MapQuery implements Subject {
   removeObserver(o: Observer): void {
     const observerIndex = this.observers.indexOf(o)
     if (observerIndex === -1) {
+      // eslint-disable-next-line no-console
       console.log('Subject: Nonexistent observer.')
     }
 
