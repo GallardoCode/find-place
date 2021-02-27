@@ -14,6 +14,8 @@ export class MapQuery implements Subject {
 
   private observers: Observer[] = []
 
+  public currentResult = 0
+
   constructor() {
     this.url = process.env.GEOCODE_URL as string
     this.apiKey = process.env.API_KEY as string
@@ -34,10 +36,16 @@ export class MapQuery implements Subject {
       .then((response) => {
         const { status, results } = response.data
         if (status !== 'OK') {
+          if (status === 'ZERO_RESULTS') {
+            this._addresses = []
+            this.currentResult = 0
+            return this._addresses
+          }
           throw Error(`Error status: ${status}
           Response: ${JSON.stringify(response.data)}`)
         } else {
           this._addresses = results
+          this.currentResult = 0
           return results
         }
       })
@@ -45,6 +53,7 @@ export class MapQuery implements Subject {
         if (results.length > 0) {
           this.notify()
         } else {
+          this.notify()
           throw Error('No search results')
         }
       })
@@ -56,6 +65,11 @@ export class MapQuery implements Subject {
 
   get addresses(): GeocodeResults['results'] {
     return this._addresses
+  }
+
+  updateCurrent = (index: number): void => {
+    this.currentResult = index
+    this.notify()
   }
 
   addObserver(o: Observer): void {

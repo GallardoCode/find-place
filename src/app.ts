@@ -3,6 +3,7 @@ import ObserverMapElement from './elements/MapElement'
 import { createElementToggler } from './models/elementToggler'
 import ButtonSubject from './elements/ButtonSubject'
 import { mapQuery } from './models/MapQuery'
+import MapResultList from './elements/ResultList'
 
 const mapEl = document.getElementById('map') as HTMLElement
 
@@ -19,3 +20,8 @@ const mobileMenu = createElementToggler('mobile-menu', ['hidden'])
 menuButton.addObserver(openMenu)
 menuButton.addObserver(closeMenu)
 menuButton.addObserver(mobileMenu)
+
+const resultDiv = document.getElementById('results') as HTMLDivElement
+const list = new MapResultList({})
+mapQuery.addObserver(list)
+resultDiv.appendChild(list.element)

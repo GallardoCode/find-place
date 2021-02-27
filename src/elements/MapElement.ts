@@ -71,7 +71,7 @@ export default class ObserverMapElement implements Observer {
       const {
         geometry: { location },
         formatted_address: formatedAdress,
-      } = s.addresses[0]
+      } = s.addresses[s.currentResult]
       const element = await this.mapLoad({ center: location, zoom: 16 })
       if (element instanceof google.maps.Map || element instanceof google.maps.StreetViewPanorama) {
         this.markerLoad({ label: formatedAdress, position: location, map: element })
